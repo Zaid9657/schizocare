@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: var(--font-atkinson), system-ui, sans-serif;
+  --font-family-serif: var(--font-fraunces), Georgia, serif;
+
+  --color-text: #1A1A2E;
+  --color-text-soft: #4A4A68;
+  --color-text-light: #7A7A96;
+  --color-bg: #FFFFFF;
+  --color-bg-warm: #F9F8F6;
+  --color-bg-section: #F3F1ED;
+  --color-border: #E0DDD7;
+  --color-border-light: #EEECE8;
+  --color-teal: #0B7B6F;
+  --color-teal-bg: #E8F5F2;
+  --color-teal-hover: #096B60;
+  --color-blue-bg: #E8F0FA;
+  --color-amber: #9E6D1B;
+  --color-amber-bg: #FBF3E3;
+  --color-red: #C03030;
+  --color-red-bg: #FDECEC;
+  --color-green: #2E7D50;
+  --color-green-bg: #E8F5EC;
+  --color-purple: #6B3FA0;
+  --color-purple-bg: #F0EBF8;
+}
+
+:root {
+  --color-text: #1A1A2E;
+  --color-text-soft: #4A4A68;
+  --color-text-light: #7A7A96;
+  --color-bg: #FFFFFF;
+  --color-bg-warm: #F9F8F6;
+  --color-bg-section: #F3F1ED;
+  --color-border: #E0DDD7;
+  --color-border-light: #EEECE8;
+  --color-teal: #0B7B6F;
+  --color-teal-bg: #E8F5F2;
+  --color-teal-hover: #096B60;
+  --color-blue-bg: #E8F0FA;
+  --color-amber: #9E6D1B;
+  --color-amber-bg: #FBF3E3;
+  --color-red: #C03030;
+  --color-red-bg: #FDECEC;
+  --color-green: #2E7D50;
+  --color-green-bg: #E8F5EC;
+  --color-purple: #6B3FA0;
+  --color-purple-bg: #F0EBF8;
+}
+
+html {
+  font-size: 18px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  color: #1A1A2E;
+  background-color: #FFFFFF;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid #0B7B6F;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  background: #0B7B6F;
+  color: white;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  top: 0;
+}
