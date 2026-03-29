@@ -13,12 +13,13 @@
     "getStarted": "Jetzt starten",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
-    "language": "Sprache"
+    "language": "Sprache",
+    "subtitle": "Genesungsplattform"
   },
   "hero": {
     "badge": "Kostenlos für Patienten",
     "title": "Werkzeuge, die Ihnen helfen,",
-    "titleHighlight": "sich besser zu fühlen",
+    "titleHighlight": "sich besser zu fühlen und gesund zu bleiben",
     "description": "Verfolgen Sie Ihre Stimmung. Nehmen Sie Ihre Medikamente pünktlich. Üben Sie hilfreiche Übungen. Verbinden Sie sich mit Menschen, die Sie verstehen. Alles an einem sicheren Ort.",
     "ctaPrimary": "Kostenlos registrieren",
     "ctaSecondary": "So funktioniert es",
@@ -88,12 +89,16 @@
     "sectionLabel": "Ihr Weg",
     "sectionTitle": "Genesung geschieht Schritt für Schritt",
     "sectionDesc": "Es gibt keine Eile. Jeder kleine Schritt zählt.",
+    "step1Label": "Schritt 1",
     "step1Title": "Lernen",
     "step1Desc": "Verstehen Sie Ihre Erkrankung. Machen Sie eine einfache Einschätzung.",
+    "step2Label": "Schritt 2",
     "step2Title": "Aufbauen",
     "step2Desc": "Beginnen Sie zu verfolgen. Richten Sie Erinnerungen ein. Probieren Sie Ihre erste Übung.",
+    "step3Label": "Schritt 3",
     "step3Title": "Wachsen",
     "step3Desc": "Probieren Sie neue Therapien. Treten Sie der Gemeinschaft bei. Gewinnen Sie Selbstvertrauen.",
+    "step4Label": "Schritt 4",
     "step4Title": "Aufblühen",
     "step4Desc": "Leben Sie das Leben, das Sie möchten. Arbeiten, lernen, verbinden, anderen helfen."
   },

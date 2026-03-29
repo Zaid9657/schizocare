@@ -31,7 +31,7 @@ export function Header() {
           </div>
           <div>
             <div style={{ fontFamily: "var(--font-fraunces), Georgia, serif", fontWeight: "bold", color: "#1A1A2E", lineHeight: 1 }}>SchizoCare</div>
-            <div style={{ fontSize: "11px", color: "#7A7A96", lineHeight: 1, marginTop: "2px" }}>Recovery Platform</div>
+            <div style={{ fontSize: "11px", color: "#7A7A96", lineHeight: 1, marginTop: "2px" }}>{t("subtitle")}</div>
           </div>
         </Link>
 
@@ -56,7 +56,7 @@ export function Header() {
           {/* Language toggle */}
           <div style={{ display: "flex" }} role="group" aria-label={t("language")}>
             <Link
-              href={`/${locale}`}
+              href="/en"
               style={{
                 minHeight: "48px", padding: "0 12px", display: "flex", alignItems: "center",
                 fontSize: "13px", fontWeight: "bold", borderRadius: "8px 0 0 8px",
@@ -71,7 +71,7 @@ export function Header() {
               EN
             </Link>
             <Link
-              href={`/${otherLocale}`}
+              href="/de"
               style={{
                 minHeight: "48px", padding: "0 12px", display: "flex", alignItems: "center",
                 fontSize: "13px", fontWeight: "bold", borderRadius: "0 8px 8px 0",

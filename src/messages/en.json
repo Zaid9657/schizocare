@@ -13,7 +13,8 @@
     "getStarted": "Get Started",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "language": "Language"
+    "language": "Language",
+    "subtitle": "Recovery Platform"
   },
   "hero": {
     "badge": "Free for patients",
@@ -88,12 +89,16 @@
     "sectionLabel": "Your Journey",
     "sectionTitle": "Recovery happens step by step",
     "sectionDesc": "There is no rush. Every small step counts.",
+    "step1Label": "Step 1",
     "step1Title": "Learn",
     "step1Desc": "Understand your condition. Take a simple assessment.",
+    "step2Label": "Step 2",
     "step2Title": "Build",
     "step2Desc": "Start tracking. Set up reminders. Try your first exercise.",
+    "step3Label": "Step 3",
     "step3Title": "Grow",
     "step3Desc": "Try new therapies. Join the community. Build confidence.",
+    "step4Label": "Step 4",
     "step4Title": "Thrive",
     "step4Desc": "Live the life you want. Work, learn, connect, help others."
   },

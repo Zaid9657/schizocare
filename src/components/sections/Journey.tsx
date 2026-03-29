@@ -31,7 +31,7 @@ export function Journey() {
             <div key={key} style={{ backgroundColor: "#FFFFFF", border: "2px solid #EEECE8", borderRadius: "12px", padding: "24px", textAlign: "center" }}>
               <div style={{ fontSize: "36px", marginBottom: "12px" }} aria-hidden="true">{icon}</div>
               <div style={{ fontSize: "11px", fontWeight: "bold", color: "#7A7A96", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px" }}>
-                Step {num}
+                {t(`step${num}Label` as Parameters<typeof t>[0])}
               </div>
               <h3 style={{ fontWeight: "bold", color: "#1A1A2E", margin: "0 0 8px 0" }}>
                 {t(`${key}Title` as Parameters<typeof t>[0])}

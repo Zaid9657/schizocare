@@ -78,7 +78,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div style={{ paddingTop: "24px", borderTop: "1px solid #E0DDD7", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-          <p style={{ color: "#7A7A96", fontSize: "14px", margin: 0 }}>© 2024 {t("copyright")}</p>
+          <p style={{ color: "#7A7A96", fontSize: "14px", margin: 0 }}>© 2026 {t("copyright")}</p>
           <div style={{ display: "flex", gap: "16px" }}>
             {[
               { icon: "🔒", label: t("badgePrivate") },
