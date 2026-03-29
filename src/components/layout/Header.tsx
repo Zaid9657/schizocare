@@ -12,6 +12,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
+    { href: `/${locale}/schizophrenia`, label: t("learn"), icon: "📖" },
     { href: `/${locale}#tools`, label: t("tools"), icon: "🛠️" },
     { href: `/${locale}#therapies`, label: t("therapies"), icon: "🧠" },
     { href: `/${locale}#doctors`, label: t("doctors"), icon: "👨‍⚕️" },
