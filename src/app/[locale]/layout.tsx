@@ -100,7 +100,7 @@ export default async function LocaleLayout({
             {children}
           </main>
           <Footer />
-          <StructuredData locale={locale} />
+          <StructuredData />
         </NextIntlClientProvider>
       </body>
     </html>
