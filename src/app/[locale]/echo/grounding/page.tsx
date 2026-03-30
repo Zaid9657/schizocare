@@ -1,10 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import GroundingCard from "@/components/echo/grounding/GroundingCard";
+import { GROUNDING_EXERCISES } from "@/lib/echo/grounding";
 
 export const metadata: Metadata = {
   title: "Grounding Tools — ECHO | SchizoCare",
-  description: "Quick grounding exercises to help you feel safe and present.",
+  description: "Quick grounding exercises to help you feel safe and present. Works offline.",
   robots: "noindex",
+};
+
+const CRISIS_EN = {
+  title: "If you are in crisis",
+  body: "These exercises are not a substitute for emergency care. If you are in immediate danger, please contact a crisis line.",
+  us: "988 Suicide & Crisis Lifeline (US): call or text 988",
+  de: "Telefonseelsorge (Germany): 0800 111 0 111",
+  link: "More crisis resources",
+};
+
+const CRISIS_DE = {
+  title: "Wenn du in einer Krise bist",
+  body: "Diese Übungen ersetzen keine Notfallversorgung. Wenn du in unmittelbarer Gefahr bist, wende dich bitte an eine Krisenhotline.",
+  us: "988 Suicide & Crisis Lifeline (USA): Anruf oder SMS an 988",
+  de: "Telefonseelsorge (Deutschland): 0800 111 0 111",
+  link: "Weitere Krisenressourcen",
 };
 
 export default async function GroundingPage({
@@ -13,64 +31,30 @@ export default async function GroundingPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-
-  const techniques = [
-    {
-      id: "five_senses",
-      icon: "🌱",
-      title: "5-4-3-2-1 Grounding",
-      desc: "Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, 1 you taste.",
-      duration: "3 min",
-      color: "#E8F5F2",
-      border: "#0B7B6F",
-    },
-    {
-      id: "box_breathing",
-      icon: "🫁",
-      title: "Box Breathing",
-      desc: "Breathe in for 4 counts, hold for 4, out for 4, hold for 4. Repeat.",
-      duration: "4 min",
-      color: "#E8F0FA",
-      border: "#4A90D9",
-    },
-    {
-      id: "body_scan",
-      icon: "🧘",
-      title: "Body Scan",
-      desc: "Slowly notice each part of your body from feet to head. No judgment.",
-      duration: "5 min",
-      color: "#F0EBF8",
-      border: "#6B3FA0",
-    },
-    {
-      id: "safe_place",
-      icon: "🏡",
-      title: "Safe Place Visualisation",
-      desc: "Picture a place where you feel completely safe. Explore it slowly.",
-      duration: "5 min",
-      color: "#FBF3E3",
-      border: "#9E6D1B",
-    },
-    {
-      id: "cold_water",
-      icon: "💧",
-      title: "Cold Water Reset",
-      desc: "Splash cold water on your face or hold ice. This activates the dive reflex and slows your heart rate quickly.",
-      duration: "1 min",
-      color: "#E8F5EC",
-      border: "#2E7D50",
-    },
-  ];
+  const isDE = locale === "de";
+  const crisis = isDE ? CRISIS_DE : CRISIS_EN;
+  const basePath = `/${locale}/echo/grounding`;
 
   return (
     <div style={{ maxWidth: "720px" }}>
+      {/* Back link */}
       <Link
         href={`/${locale}/echo`}
-        style={{ color: "#0B7B6F", textDecoration: "none", fontWeight: "bold", fontSize: "14px", display: "inline-block", marginBottom: "24px" }}
+        style={{
+          color: "#0B7B6F",
+          textDecoration: "none",
+          fontWeight: "bold",
+          fontSize: "14px",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "4px",
+          marginBottom: "24px",
+        }}
       >
-        ← Back to ECHO
+        ← {isDE ? "Zurück zu ECHO" : "Back to ECHO"}
       </Link>
 
+      {/* Header */}
       <span
         style={{
           display: "block",
@@ -82,7 +66,7 @@ export default async function GroundingPage({
           marginBottom: "8px",
         }}
       >
-        Grounding Tools
+        {isDE ? "Erdungsübungen" : "Grounding Tools"}
       </span>
 
       <h1
@@ -91,95 +75,120 @@ export default async function GroundingPage({
           fontSize: "34px",
           fontWeight: "bold",
           color: "#1A1A2E",
-          margin: "0 0 12px 0",
+          margin: "0 0 10px 0",
           lineHeight: 1.2,
         }}
       >
-        Feel Safe Right Now
+        {isDE ? "Komm ins Hier und Jetzt" : "Feel Safe Right Now"}
       </h1>
-
-      <p style={{ color: "#4A4A68", lineHeight: 1.8, margin: "0 0 32px 0" }}>
-        These exercises help bring you back to the present moment. Use them
-        any time — before a session, during, or whenever you need them.
-      </p>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        {techniques.map(({ id, icon, title, desc, duration, color, border }) => (
-          <div
-            key={id}
-            style={{
-              backgroundColor: color,
-              border: `2px solid ${border}`,
-              borderRadius: "12px",
-              padding: "20px 24px",
-              display: "flex",
-              alignItems: "flex-start",
-              gap: "16px",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "28px",
-                flexShrink: 0,
-                marginTop: "2px",
-              }}
-              aria-hidden="true"
-            >
-              {icon}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "6px" }}>
-                <h2
-                  style={{
-                    fontWeight: "bold",
-                    color: "#1A1A2E",
-                    margin: 0,
-                    fontSize: "17px",
-                  }}
-                >
-                  {title}
-                </h2>
-                <span style={{ fontSize: "12px", color: "#7A7A96", fontWeight: 500 }}>
-                  {duration}
-                </span>
-              </div>
-              <p style={{ color: "#4A4A68", margin: "0 0 14px 0", lineHeight: 1.6, fontSize: "15px" }}>
-                {desc}
-              </p>
-              <button
-                type="button"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  minHeight: "40px",
-                  padding: "0 18px",
-                  backgroundColor: border,
-                  color: "#FFFFFF",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  fontFamily: "inherit",
-                }}
-              >
-                Start
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
 
       <p
         style={{
-          marginTop: "28px",
-          fontSize: "14px",
-          color: "#7A7A96",
-          lineHeight: 1.6,
+          color: "#4A4A68",
+          lineHeight: 1.8,
+          margin: "0 0 32px 0",
+          fontSize: "17px",
+          maxWidth: "560px",
         }}
       >
-        Guided audio and step-by-step instructions for each exercise are coming soon.
+        {isDE
+          ? "Diese Übungen helfen dir, in den gegenwärtigen Moment zurückzukehren. Nutze sie jederzeit — vor einer Sitzung, während einer oder wann immer du sie brauchst."
+          : "These exercises help bring you back to the present moment. Use them any time — before a session, during one, or whenever you need them."}
       </p>
+
+      {/* Exercise cards */}
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "40px" }}
+      >
+        {GROUNDING_EXERCISES.map((exercise) => (
+          <GroundingCard
+            key={exercise.id}
+            exercise={exercise}
+            locale={locale}
+            basePath={basePath}
+          />
+        ))}
+      </div>
+
+      {/* Cold water inline tip */}
+      <div
+        id="cold-water"
+        style={{
+          backgroundColor: "#E8F5EC",
+          border: "2px solid #2E7D50",
+          borderRadius: "12px",
+          padding: "20px 22px",
+          marginBottom: "40px",
+        }}
+      >
+        <div style={{ fontWeight: "bold", color: "#1A1A2E", fontSize: "17px", marginBottom: "8px" }}>
+          💧 {isDE ? "Kaltwasser-Reset — Anleitung" : "Cold Water Reset — How to do it"}
+        </div>
+        <ol style={{ margin: "0", padding: "0 0 0 20px", color: "#2E5A38", lineHeight: 2 }}>
+          {isDE ? (
+            <>
+              <li>Geh zu einem Waschbecken oder hol eine Schüssel mit kaltem Wasser.</li>
+              <li>Tauche dein Gesicht für 30 Sekunden ein, oder spritz kaltes Wasser auf deine Stirn und Wangen.</li>
+              <li>Falls verfügbar: Halte einen Eiswürfel in deiner Hand, bis er sich unangenehm anfühlt.</li>
+              <li>Nimm dir eine Minute, um zu bemerken, wie sich dein Körper anfühlt.</li>
+            </>
+          ) : (
+            <>
+              <li>Go to a sink or get a bowl of cold water.</li>
+              <li>Submerge your face for 30 seconds, or splash cold water on your forehead and cheeks.</li>
+              <li>If available: hold an ice cube in your hand until it feels uncomfortable.</li>
+              <li>Take a moment to notice how your body feels afterwards.</li>
+            </>
+          )}
+        </ol>
+        <p style={{ margin: "12px 0 0 0", fontSize: "13px", color: "#4A6B52" }}>
+          {isDE
+            ? "Dies aktiviert den Tauchreflex und kann die Herzfrequenz innerhalb von Sekunden senken."
+            : "This activates the mammalian dive reflex and can lower heart rate within seconds."}
+        </p>
+      </div>
+
+      {/* Crisis resources */}
+      <div
+        style={{
+          backgroundColor: "#FFF5F5",
+          border: "2px solid #C03030",
+          borderRadius: "12px",
+          padding: "20px 22px",
+        }}
+      >
+        <h2
+          style={{
+            fontWeight: "bold",
+            color: "#8B1A1A",
+            fontSize: "16px",
+            margin: "0 0 10px 0",
+            fontFamily: "var(--font-atkinson), 'Atkinson Hyperlegible', sans-serif",
+          }}
+        >
+          🆘 {crisis.title}
+        </h2>
+        <p style={{ color: "#4A2A2A", fontSize: "15px", lineHeight: 1.65, margin: "0 0 12px 0" }}>
+          {crisis.body}
+        </p>
+        <ul style={{ margin: 0, padding: "0 0 0 20px", color: "#4A2A2A", lineHeight: 2, fontSize: "15px" }}>
+          <li>{crisis.us}</li>
+          <li>{crisis.de}</li>
+        </ul>
+        <Link
+          href={`/${locale}#faq`}
+          style={{
+            display: "inline-block",
+            marginTop: "14px",
+            color: "#C03030",
+            fontWeight: "bold",
+            fontSize: "14px",
+            textDecoration: "underline",
+          }}
+        >
+          {crisis.link} →
+        </Link>
+      </div>
     </div>
   );
 }

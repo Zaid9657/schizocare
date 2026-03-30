@@ -122,6 +122,33 @@
     "ctaPrimary": "Sign Up Free",
     "ctaDoctor": "I am a Doctor"
   },
+  "echo": {
+    "grounding": {
+      "hub": {
+        "title": "Grounding",
+        "subtitle": "Take a moment. You're safe here."
+      },
+      "breathing": {
+        "title": "Box Breathing",
+        "instruction_in": "Breathe in...",
+        "instruction_hold": "Hold...",
+        "instruction_out": "Breathe out...",
+        "instruction_hold_out": "Hold..."
+      },
+      "senses": {
+        "title": "5-4-3-2-1",
+        "step_see": "Name 5 things you can see",
+        "step_hear": "Name 4 things you can hear",
+        "step_touch": "Name 3 things you can touch",
+        "step_smell": "Name 2 things you can smell",
+        "step_taste": "Name 1 thing you can taste"
+      },
+      "safePlace": {
+        "title": "Safe Place",
+        "subtitle": "A quiet journey to somewhere you feel completely safe."
+      }
+    }
+  },
   "footer": {
     "tagline": "A safe place to recover.",
     "crisisTitle": "Need help now?",

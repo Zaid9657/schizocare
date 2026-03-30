@@ -122,6 +122,33 @@
     "ctaPrimary": "Kostenlos registrieren",
     "ctaDoctor": "Ich bin Arzt"
   },
+  "echo": {
+    "grounding": {
+      "hub": {
+        "title": "Erdung",
+        "subtitle": "Nimm dir einen Moment. Du bist hier sicher."
+      },
+      "breathing": {
+        "title": "Box-Atmung",
+        "instruction_in": "Einatmen...",
+        "instruction_hold": "Halten...",
+        "instruction_out": "Ausatmen...",
+        "instruction_hold_out": "Halten..."
+      },
+      "senses": {
+        "title": "5-4-3-2-1",
+        "step_see": "Nenne 5 Dinge, die du siehst",
+        "step_hear": "Nenne 4 Dinge, die du h\u00f6rst",
+        "step_touch": "Nenne 3 Dinge, die du ber\u00fchrst",
+        "step_smell": "Nenne 2 Dinge, die du riechst",
+        "step_taste": "Nenne 1 Ding, das du schmeckst"
+      },
+      "safePlace": {
+        "title": "Sicherer Ort",
+        "subtitle": "Eine ruhige Reise zu einem Ort, an dem du dich vollkommen sicher f\u00fchlst."
+      }
+    }
+  },
   "footer": {
     "tagline": "Ein sicherer Ort für die Genesung.",
     "crisisTitle": "Brauchen Sie jetzt Hilfe?",
