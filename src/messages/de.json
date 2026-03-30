@@ -123,6 +123,22 @@
     "ctaDoctor": "Ich bin Arzt"
   },
   "echo": {
+    "avatar": {
+      "create": {
+        "title": "Deinen Avatar erstellen",
+        "intro": "Lass uns ein Gesicht f\u00fcr deine Stimme gestalten. Du hast die Kontrolle."
+      },
+      "face": {
+        "title": "Das Gesicht gestalten"
+      },
+      "voice": {
+        "title": "Die Stimme einstellen"
+      },
+      "preview": {
+        "title": "Triff deinen Avatar"
+      },
+      "empowerment": "Du hast das erschaffen. Du hast die Kontrolle. Lass uns zusammen \u00fcben."
+    },
     "grounding": {
       "hub": {
         "title": "Erdung",

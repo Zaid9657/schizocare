@@ -123,6 +123,22 @@
     "ctaDoctor": "I am a Doctor"
   },
   "echo": {
+    "avatar": {
+      "create": {
+        "title": "Create Your Avatar",
+        "intro": "Let's create a face for your voice. You're in control."
+      },
+      "face": {
+        "title": "Build the Face"
+      },
+      "voice": {
+        "title": "Set the Voice"
+      },
+      "preview": {
+        "title": "Meet Your Avatar"
+      },
+      "empowerment": "You created this. You control this. Let's practice together."
+    },
     "grounding": {
       "hub": {
         "title": "Grounding",
