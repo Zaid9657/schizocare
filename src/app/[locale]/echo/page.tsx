@@ -16,6 +16,7 @@ export default async function EchoHomePage({
   const { locale } = await params;
   const groundingHref = `/${locale}/echo/grounding`;
   const avatarHref = `/${locale}/echo/avatar`;
+  const sessionHref = `/${locale}/echo/session`;
 
   return (
     <div style={{ maxWidth: "640px" }}>
@@ -132,6 +133,25 @@ export default async function EchoHomePage({
           }}
         >
           🎭 Create Your First Voice
+        </Link>
+        <Link
+          href={sessionHref}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            minHeight: "52px",
+            padding: "0 28px",
+            backgroundColor: "#FFFFFF",
+            color: "#6B3FA0",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            textDecoration: "none",
+            fontSize: "17px",
+            border: "2px solid #6B3FA0",
+          }}
+        >
+          💬 Start a Session
         </Link>
         <Link
           href={groundingHref}
