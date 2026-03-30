@@ -15,6 +15,7 @@ export default async function EchoHomePage({
 }) {
   const { locale } = await params;
   const groundingHref = `/${locale}/echo/grounding`;
+  const avatarHref = `/${locale}/echo/avatar`;
 
   return (
     <div style={{ maxWidth: "640px" }}>
@@ -22,7 +23,7 @@ export default async function EchoHomePage({
       <span
         style={{
           display: "inline-block",
-          backgroundColor: "#6B3FA0",
+          backgroundColor: "#2E7D50",
           color: "#FFFFFF",
           fontSize: "12px",
           fontWeight: "bold",
@@ -33,7 +34,7 @@ export default async function EchoHomePage({
           letterSpacing: "0.08em",
         }}
       >
-        Coming Soon
+        Early Access
       </span>
 
       <h1
@@ -115,14 +116,14 @@ export default async function EchoHomePage({
       {/* CTA */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
         <Link
-          href={groundingHref}
+          href={avatarHref}
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "8px",
             minHeight: "52px",
             padding: "0 28px",
-            backgroundColor: "#0B7B6F",
+            backgroundColor: "#6B3FA0",
             color: "#FFFFFF",
             fontWeight: "bold",
             borderRadius: "8px",
@@ -130,7 +131,26 @@ export default async function EchoHomePage({
             fontSize: "17px",
           }}
         >
-          🌿 Try Grounding Tools Now
+          🎭 Create Your First Voice
+        </Link>
+        <Link
+          href={groundingHref}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            minHeight: "52px",
+            padding: "0 28px",
+            backgroundColor: "#FFFFFF",
+            color: "#0B7B6F",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            textDecoration: "none",
+            fontSize: "17px",
+            border: "2px solid #0B7B6F",
+          }}
+        >
+          🌿 Grounding Tools
         </Link>
       </div>
 
