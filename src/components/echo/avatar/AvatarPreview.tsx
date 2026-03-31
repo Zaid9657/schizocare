@@ -39,8 +39,10 @@ export default function AvatarPreview({
         borderRadius: "50%",
         overflow: "hidden",
         flexShrink: 0,
-        border: "3px solid #EEECE8",
+        border: speaking ? "3px solid #6B3FA0" : "3px solid #EEECE8",
         backgroundColor: "#F9F8F6",
+        boxShadow: speaking ? "0 0 0 4px #6B3FA022, 0 0 16px #6B3FA044" : "none",
+        transition: "border-color 0.2s ease, box-shadow 0.2s ease",
       }}
       dangerouslySetInnerHTML={{ __html: svgString }}
     />
