@@ -4,7 +4,7 @@
 // ActiveSession — orchestrates the full session flow via SessionContext
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { saveOnboardingProgress } from "@/lib/echo/onboarding/onboarding-service";
 import type { Avatar } from "@/types/echo";
@@ -12,12 +12,17 @@ import type { UserResponseCategory } from "@/lib/echo/content/seed-data";
 import { SessionProvider } from "@/context/echo/SessionContext";
 import { useSession } from "@/hooks/echo/useSession";
 import { MIN_EXCHANGES_TO_END } from "@/lib/echo/dialogue/session-controller";
-import SessionHeader       from "@/components/echo/session/SessionHeader";
-import PreSessionCheckIn   from "@/components/echo/session/PreSessionCheckIn";
-import DialogueView        from "@/components/echo/session/DialogueView";
-import AvatarReactionView  from "@/components/echo/session/AvatarReactionView";
+import { checkForCrisis } from "@/lib/echo/safety/crisis-keywords";
+import SessionHeader        from "@/components/echo/session/SessionHeader";
+import PreSessionCheckIn    from "@/components/echo/session/PreSessionCheckIn";
+import DialogueView         from "@/components/echo/session/DialogueView";
+import AvatarReactionView   from "@/components/echo/session/AvatarReactionView";
 import WinStatementSelector from "@/components/echo/session/WinStatementSelector";
-import PostSession         from "@/components/echo/session/PostSession";
+import PostSession          from "@/components/echo/session/PostSession";
+import CrisisDetectedModal  from "@/components/echo/safety/CrisisDetectedModal";
+import MoodDropModal        from "@/components/echo/safety/MoodDropModal";
+import ExtendedUseReminder  from "@/components/echo/safety/ExtendedUseReminder";
+import StressButton         from "@/components/echo/safety/StressButton";
 
 // ── Pending session config (written by NewSessionSetup) ───────────────────────
 
@@ -53,10 +58,18 @@ function SessionInner({ locale, sessionType }: { locale: string; sessionType: st
   const router       = useRouter();
   const searchParams = useSearchParams();
   const isOnboarding = searchParams.get("onboarding") === "true";
-  const [mounted, setMounted]           = useState(false);
-  const [dialogueSub, setDialogueSub]   = useState<DialogueSub>("statement");
-  const [skillFocus, setSkillFocus]     = useState<UserResponseCategory | null>(null);
-  const [winText, setWinText]           = useState("");
+  const [mounted, setMounted]                 = useState(false);
+  const [dialogueSub, setDialogueSub]         = useState<DialogueSub>("statement");
+  const [skillFocus, setSkillFocus]           = useState<UserResponseCategory | null>(null);
+  const [winText, setWinText]                 = useState("");
+  // ── Safety state ──────────────────────────────────────────────────────────
+  const [showCrisisModal, setShowCrisisModal] = useState(false);
+  const [showMoodDrop, setShowMoodDrop]       = useState(false);
+  const [showExtendedUse, setShowExtendedUse] = useState(false);
+  const extendedUseShownRef                   = useRef(false);
+  const sessionStartRef                       = useRef<number>(Date.now());
+  // Pending custom text waiting for crisis modal dismissal
+  const pendingTextRef                        = useRef<string | null>(null);
 
   const groundingHref = `/${locale}/echo/grounding`;
   const echoHref      = `/${locale}/echo`;
@@ -80,6 +93,28 @@ function SessionInner({ locale, sessionType }: { locale: string; sessionType: st
     }
   }, [state.phase]);  // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── Extended-use timer (20 minutes) ──────────────────────────────────────
+  useEffect(() => {
+    if (state.phase !== "dialogue") return;
+    const TWENTY_MIN = 20 * 60 * 1000;
+    const elapsed = Date.now() - sessionStartRef.current;
+    const remaining = TWENTY_MIN - elapsed;
+    if (remaining <= 0) {
+      if (!extendedUseShownRef.current) {
+        extendedUseShownRef.current = true;
+        setShowExtendedUse(true);
+      }
+      return;
+    }
+    const timer = setTimeout(() => {
+      if (!extendedUseShownRef.current) {
+        extendedUseShownRef.current = true;
+        setShowExtendedUse(true);
+      }
+    }, remaining);
+    return () => clearTimeout(timer);
+  }, [state.phase]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // ── Response handling ─────────────────────────────────────────────────────
   const handleRespond = useCallback((cat: UserResponseCategory) => {
     respond(cat);
@@ -87,9 +122,16 @@ function SessionInner({ locale, sessionType }: { locale: string; sessionType: st
   }, [respond]);
 
   const handleRespondText = useCallback((text: string) => {
+    // Check for crisis keywords before processing
+    const crisis = checkForCrisis(text, locale);
+    if (crisis.detected) {
+      pendingTextRef.current = text;
+      setShowCrisisModal(true);
+      return;
+    }
     respondText(text);
     setDialogueSub("reaction");
-  }, [respondText]);
+  }, [respondText, locale]);
 
   const handleContinue = useCallback(() => {
     setDialogueSub("statement");
@@ -99,6 +141,10 @@ function SessionInner({ locale, sessionType }: { locale: string; sessionType: st
   function handleWinChosen(text: string) {
     setWinText(text);
     finishSession();
+    // Check for mood drop (≥2 points lower than before)
+    if (state.moodAfter <= state.moodBefore - 2) {
+      setShowMoodDrop(true);
+    }
     if (isOnboarding) {
       saveOnboardingProgress("local", { firstSessionDone: true, step: 8 });
       router.push(`/${locale}/echo/onboarding`);
@@ -113,6 +159,53 @@ function SessionInner({ locale, sessionType }: { locale: string; sessionType: st
 
   return (
     <div style={{ maxWidth: "560px", margin: "0 auto" }}>
+
+      {/* ── Safety modals ── */}
+      {showCrisisModal && (
+        <CrisisDetectedModal
+          locale={locale}
+          sessionId={state.engineCtx?.sessionId}
+          groundingHref={groundingHref}
+          onContinue={() => {
+            setShowCrisisModal(false);
+            // Process the pending text after user dismisses
+            const pending = pendingTextRef.current;
+            if (pending) {
+              pendingTextRef.current = null;
+              respondText(pending);
+              setDialogueSub("reaction");
+            }
+          }}
+        />
+      )}
+
+      {showMoodDrop && (
+        <MoodDropModal
+          locale={locale}
+          sessionId={state.engineCtx?.sessionId}
+          groundingHref={groundingHref}
+          onContinue={() => setShowMoodDrop(false)}
+        />
+      )}
+
+      {showExtendedUse && (
+        <ExtendedUseReminder
+          locale={locale}
+          sessionId={state.engineCtx?.sessionId}
+          onBreak={() => { setShowExtendedUse(false); goToWinStatement(); }}
+          onContinue={() => setShowExtendedUse(false)}
+        />
+      )}
+
+      {/* Floating stress button (during dialogue only) */}
+      {state.phase === "dialogue" && (
+        <StressButton
+          floating
+          locale={locale}
+          sessionId={state.engineCtx?.sessionId}
+          onActivate={() => router.push(groundingHref)}
+        />
+      )}
 
       {/* Break reminder modal */}
       {state.showBreakReminder && (

@@ -7,8 +7,9 @@ export default function EchoLayout({ children }: { children: React.ReactNode }) 
   const params = useParams();
   const locale = (params.locale as string) ?? "en";
 
-  const exitHref = `/${locale}`;
+  const exitHref    = `/${locale}`;
   const groundingHref = `/${locale}/echo/grounding`;
+  const crisisHref    = `/${locale}/echo/crisis`;
 
   return (
     <div
@@ -84,6 +85,28 @@ export default function EchoLayout({ children }: { children: React.ReactNode }) 
 
           {/* Right actions */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {/* Crisis help */}
+            <Link
+              href={crisisHref}
+              style={{
+                display:     "inline-flex",
+                alignItems:  "center",
+                gap:         "4px",
+                minHeight:   "40px",
+                padding:     "0 12px",
+                backgroundColor: "#FFF0F0",
+                color:       "#C03030",
+                fontWeight:  "bold",
+                borderRadius:"8px",
+                textDecoration: "none",
+                fontSize:    "13px",
+                border:      "1px solid #C03030",
+              }}
+              aria-label="Crisis help resources"
+            >
+              🆘 {locale === "de" ? "Hilfe" : "Crisis Help"}
+            </Link>
+
             {/* Grounding quick-access */}
             <Link
               href={groundingHref}
