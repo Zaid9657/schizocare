@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import FaceBuilder from "@/components/echo/avatar/FaceBuilder";
 import VoiceSettings, { type VoiceSettingsValue } from "@/components/echo/avatar/VoiceSettings";
@@ -8,6 +9,7 @@ import AvatarDetails, { type AvatarDetailsValue } from "@/components/echo/avatar
 import AvatarPreview from "@/components/echo/avatar/AvatarPreview";
 import { DEFAULT_FACE_CONFIG, type FaceConfig } from "@/lib/echo/avatar/face-parts";
 import { createAvatar } from "@/lib/echo/avatar/avatar-service";
+import { saveOnboardingProgress } from "@/lib/echo/onboarding/onboarding-service";
 
 // ── i18n ──────────────────────────────────────────────────────────────────────
 
@@ -127,7 +129,10 @@ const DEFAULT_STATE: WizardState = {
 // ── Main wizard ────────────────────────────────────────────────────────────────
 
 export default function AvatarCreateWizard({ locale }: { locale: string }) {
-  const t = locale === "de" ? DE : EN;
+  const t            = locale === "de" ? DE : EN;
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding") === "true";
   const totalSteps = 5; // 0=intro 1=face 2=voice 3=details 4=preview
   const [step, setStep] = useState(0);
   const [state, setState] = useState<WizardState>(DEFAULT_STATE);
@@ -167,6 +172,11 @@ export default function AvatarCreateWizard({ locale }: { locale: string }) {
       });
       setSavedAvatarId(avatar.id);
       setSaveStatus("saved");
+      if (isOnboarding) {
+        saveOnboardingProgress("local", { avatarCreated: true, step: 7 });
+        router.push(`/${locale}/echo/onboarding`);
+        return;
+      }
     } catch (err) {
       const msg = err instanceof Error && err.message.includes("5")
         ? t.errorMax

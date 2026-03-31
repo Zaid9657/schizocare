@@ -5,7 +5,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { saveOnboardingProgress } from "@/lib/echo/onboarding/onboarding-service";
 import type { Avatar } from "@/types/echo";
 import type { UserResponseCategory } from "@/lib/echo/content/seed-data";
 import { SessionProvider } from "@/context/echo/SessionContext";
@@ -49,7 +50,9 @@ type DialogueSub = "statement" | "reaction";
 function SessionInner({ locale, sessionType }: { locale: string; sessionType: string }) {
   const { state, init, setMoodBefore, beginSession, respond, respondText,
           dismissBreak, goToWinStatement, setSpeaking, setMoodAfter, finishSession, abort } = useSession();
-  const router = useRouter();
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding") === "true";
   const [mounted, setMounted]           = useState(false);
   const [dialogueSub, setDialogueSub]   = useState<DialogueSub>("statement");
   const [skillFocus, setSkillFocus]     = useState<UserResponseCategory | null>(null);
@@ -95,9 +98,11 @@ function SessionInner({ locale, sessionType }: { locale: string; sessionType: st
   // ── Win statement chosen ──────────────────────────────────────────────────
   function handleWinChosen(text: string) {
     setWinText(text);
-    // Transition to summary handled by finishSession() after mood-after
-    // We store the text and move to summary phase
     finishSession();
+    if (isOnboarding) {
+      saveOnboardingProgress("local", { firstSessionDone: true, step: 8 });
+      router.push(`/${locale}/echo/onboarding`);
+    }
   }
 
   if (!mounted || !state.avatar) return null;

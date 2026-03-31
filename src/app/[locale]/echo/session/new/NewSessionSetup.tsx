@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { Avatar } from "@/types/echo";
 import { PERSONALITY_CONFIG } from "@/lib/echo/constants";
@@ -44,8 +44,10 @@ function loadAvatars(): Avatar[] {
 }
 
 export default function NewSessionSetup({ locale }: { locale: string }) {
-  const t = locale === "de" ? DE : EN;
-  const router = useRouter();
+  const t            = locale === "de" ? DE : EN;
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding") === "true";
 
   const [avatars, setAvatars]         = useState<Avatar[]>([]);
   const [mounted, setMounted]         = useState(false);
@@ -74,7 +76,8 @@ export default function NewSessionSetup({ locale }: { locale: string }) {
       sessionType,
       locale,
     }));
-    router.push(`/${locale}/echo/session/${Date.now()}`);
+    const sessionUrl = `/${locale}/echo/session/${Date.now()}${isOnboarding ? "?onboarding=true" : ""}`;
+    router.push(sessionUrl);
   }
 
   if (avatars.length === 0) {
