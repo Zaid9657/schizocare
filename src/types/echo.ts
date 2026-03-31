@@ -210,6 +210,36 @@ export interface GroundingSession {
   completedAt: string;
 }
 
+// ── Dialogue Engine ───────────────────────────────────────────────────────────
+
+/**
+ * One complete turn: the avatar's reaction to the user's response,
+ * plus the next hostile statement (null if the session should close).
+ */
+export interface AvatarTurn {
+  reactionText:      string;
+  reactionId:        string;
+  nextStatementText: string | null;
+  nextStatementId:   string | null;
+  /** True when the engine recommends ending the session */
+  suggestClose:      boolean;
+}
+
+/**
+ * Summary returned by endSession() after the user confirms the win statement.
+ */
+export interface SessionSummary {
+  sessionId:        string;
+  durationSeconds:  number;
+  exchangeCount:    number;
+  moodBefore:       number;
+  moodAfter:        number;
+  moodImprovement:  number;
+  winStatementId:   string;
+  winStatementText: string;
+  locale:           string;
+}
+
 // ── UI State ─────────────────────────────────
 
 export interface ECHOUIState {
