@@ -12,12 +12,12 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: `/${locale}/schizophrenia`, label: t("learn"), icon: "📖" },
-    { href: `/${locale}#tools`, label: t("tools"), icon: "🛠️" },
-    { href: `/${locale}#therapies`, label: t("therapies"), icon: "🧠" },
-    { href: `/${locale}#doctors`, label: t("doctors"), icon: "👨‍⚕️" },
-    { href: `/${locale}#community`, label: t("community"), icon: "💬" },
-    { href: `/${locale}#faq`, label: t("help"), icon: "❓" },
+    { href: `/${locale}/schizophrenia`, label: t("learn"),      icon: "📖", badge: null  },
+    { href: `/${locale}#tools`,         label: t("tools"),      icon: "🛠️", badge: null  },
+    { href: `/${locale}#therapies`,     label: t("therapies"),  icon: "🧠", badge: null  },
+    { href: `/${locale}#doctors`,       label: t("doctors"),    icon: "👨‍⚕️", badge: null  },
+    { href: `/${locale}#community`,     label: t("community"),  icon: "💬", badge: null  },
+    { href: `/${locale}/echo`,          label: "ECHO",          icon: "🎭", badge: "NEW" },
   ];
 
   const otherLocale = locale === "en" ? "de" : "en";
@@ -42,12 +42,17 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              style={{ display: "flex", alignItems: "center", gap: "6px", padding: "0 12px", minHeight: "48px", borderRadius: "8px", color: "#4A4A68", textDecoration: "none", fontSize: "15px", fontWeight: 500, transition: "background-color 0.15s, color 0.15s", whiteSpace: "nowrap" }}
+              style={{ display: "flex", alignItems: "center", gap: "6px", padding: "0 12px", minHeight: "48px", borderRadius: "8px", color: "#4A4A68", textDecoration: "none", fontSize: "15px", fontWeight: 500, transition: "background-color 0.15s, color 0.15s", whiteSpace: "nowrap", position: "relative" }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = "#F3F1ED"; (e.currentTarget as HTMLElement).style.color = "#1A1A2E"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ""; (e.currentTarget as HTMLElement).style.color = "#4A4A68"; }}
             >
               <span aria-hidden="true">{link.icon}</span>
               {link.label}
+              {link.badge && (
+                <span style={{ backgroundColor: "#6B3FA0", color: "#FFFFFF", fontSize: "9px", fontWeight: "bold", padding: "1px 5px", borderRadius: "6px", letterSpacing: "0.04em", marginLeft: "2px", verticalAlign: "middle" }}>
+                  {link.badge}
+                </span>
+              )}
             </a>
           ))}
         </nav>
@@ -131,6 +136,11 @@ export function Header() {
               >
                 <span aria-hidden="true">{link.icon}</span>
                 {link.label}
+                {link.badge && (
+                  <span style={{ backgroundColor: "#6B3FA0", color: "#FFFFFF", fontSize: "9px", fontWeight: "bold", padding: "1px 5px", borderRadius: "6px", letterSpacing: "0.04em", marginLeft: "auto" }}>
+                    {link.badge}
+                  </span>
+                )}
               </a>
             ))}
             <Link

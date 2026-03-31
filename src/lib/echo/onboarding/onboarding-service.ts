@@ -29,7 +29,8 @@ function read<T>(key: string, fallback: T): T {
 
 /** Returns true if the user has completed onboarding. */
 export function isOnboarded(_userId: string): boolean {
-  return !!read<string | null>(KEY_ONBOARDED, null);
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem(KEY_ONBOARDED);
 }
 
 /** Marks onboarding as complete with a timestamp. */

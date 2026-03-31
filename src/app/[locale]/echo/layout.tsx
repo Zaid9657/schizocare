@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import EchoErrorBoundary from "@/components/echo/EchoErrorBoundary";
 
 export default function EchoLayout({ children }: { children: React.ReactNode }) {
   const params = useParams();
@@ -155,6 +156,7 @@ export default function EchoLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Page content */}
+      <EchoErrorBoundary locale={locale} groundingHref={groundingHref} homeHref={exitHref}>
       <main
         id="echo-main"
         style={{
@@ -167,6 +169,7 @@ export default function EchoLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
       </main>
+      </EchoErrorBoundary>
 
       {/* ECHO Footer */}
       <footer
